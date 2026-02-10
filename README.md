@@ -15,8 +15,8 @@ This project implements a comprehensive machine learning classification pipeline
 - **URL**: https://archive.ics.uci.edu/ml/machine-learning-databases/adult/adult.data
 
 ### Dataset Characteristics
-- **Number of Instances**: 30,162 (after removing missing values) — Minimum requirement: 500 ✓
-- **Number of Features**: 14 — Minimum requirement: 12 ✓
+- **Number of Instances**: 30,162 (after removing missing values) — Minimum requirement: 500 (met)
+- **Number of Features**: 14 — Minimum requirement: 12 (met)
 - **Target Variable**: `income`
 - **Class Distribution**:
   - Class 0 (<=50K): 22,654 samples (75.1%)
@@ -30,7 +30,7 @@ This project implements a comprehensive machine learning classification pipeline
 | workclass | Categorical | Employment type (Private, Self-emp, Gov, etc.) |
 | fnlwgt | Numerical | Census sampling weight |
 | education | Categorical | Highest education level attained |
-| education_num | Numerical | Education level as a number (1–16) |
+| education_num | Numerical | Education level as a number (1-16) |
 | marital_status | Categorical | Marital status |
 | occupation | Categorical | Type of occupation |
 | relationship | Categorical | Relationship status in household |
@@ -47,7 +47,7 @@ This project implements a comprehensive machine learning classification pipeline
 
 ### Data Preprocessing Steps
 1. **Encoding**: All 8 categorical features encoded using Label Encoding
-2. **Target Encoding**: Target variable (income) encoded — `<=50K` → 0, `>50K` → 1
+2. **Target Encoding**: Target variable (income) encoded — `<=50K` to 0, `>50K` to 1
 3. **Scaling**: All features normalized using StandardScaler
 4. **Train-Test Split**: 80-20 split with stratification to preserve class balance
 
@@ -112,7 +112,7 @@ pip install -r requirements.txt
 
 3. **Run the notebook** (for model training and results)
 ```bash
-jupyter notebook model_training.ipynb
+jupyter notebook model/model_training.ipynb
 ```
 
 4. **Run the Streamlit app**
@@ -132,7 +132,7 @@ streamlit run app.py
 
 ### Live Application
 The application is deployed on Streamlit Community Cloud:
-**[Your Streamlit App URL Here]**
+**[https://mlassignment2-kmepmbozytsyeyf3yerkyb.streamlit.app/](https://mlassignment2-kmepmbozytsyeyf3yerkyb.streamlit.app/)**
 
 ### Deployment Steps
 1. Created GitHub repository with all required files
@@ -147,42 +147,43 @@ The application is deployed on Streamlit Community Cloud:
 ## Project Structure
 
 ```
-project-folder/
-│
-├── app.py                    # Streamlit web application
-├── model_training.ipynb      # Jupyter notebook with full training pipeline
-├── model_training.py         # Python training script
-├── requirements.txt          # Python dependencies
-├── README.md                 # Project documentation
-│
-└── model/                    # Saved model files
-    ├── model_training.ipynb
-    └── model_training.py
+mlassignment2/
+|
+|-- app.py                        # Streamlit web application
+|-- requirements.txt              # Python dependencies
+|-- README.md                     # Project documentation
+|
+|-- model/
+|   `-- model_training.ipynb      # Jupyter notebook for model training and evaluation
+|
+`-- utils/
+    |-- __init__.py
+    `-- ml_utils.py               # Shared utilities (preprocessing, models, metrics, plots)
 ```
 
 ---
 
 ## Streamlit App Features
 
-1. **Dataset Upload** — Upload CSV files directly through the UI
-2. **Model Selection** — Dropdown to select from 6 trained models
-3. **Metrics Display** — All 6 evaluation metrics shown in metric cards
-4. **Confusion Matrix** — Visual heatmap of prediction results
-5. **Classification Report** — Detailed per-class performance breakdown
-6. **Model Comparison Table** — Side-by-side comparison of all 6 models
-7. **Results Download** — Export results as CSV
+1. **Dataset Upload** - Upload CSV files directly through the UI
+2. **Model Selection** - Dropdown to select from 6 trained models
+3. **Metrics Display** - All 6 evaluation metrics shown in metric cards
+4. **Confusion Matrix** - Visual heatmap of prediction results
+5. **Classification Report** - Detailed per-class performance breakdown
+6. **Model Comparison Table** - Side-by-side comparison of all 6 models
+7. **Results Download** - Export results as CSV
 
 ---
 
 ## Technologies Used
 
 - **Python 3.8+**
-- **scikit-learn** — ML models and metrics
-- **XGBoost** — Gradient boosting
-- **Streamlit** — Web application
-- **Pandas** — Data manipulation
-- **NumPy** — Numerical computations
-- **Matplotlib & Seaborn** — Visualizations
+- **scikit-learn** - ML models and metrics
+- **XGBoost** - Gradient boosting
+- **Streamlit** - Web application
+- **Pandas** - Data manipulation
+- **NumPy** - Numerical computations
+- **Matplotlib and Seaborn** - Visualizations
 
 ---
 
@@ -190,23 +191,23 @@ project-folder/
 
 | Requirement | Status |
 |-------------|--------|
-| Dataset from UCI/Kaggle (≥12 features, ≥500 instances) | ✅ UCI Adult: 14 features, 30,162 instances |
-| 6 Classification models implemented | ✅ LR, DT, KNN, NB, RF, XGBoost |
-| 6 Evaluation metrics per model | ✅ Accuracy, AUC, Precision, Recall, F1, MCC |
-| GitHub repository with source code + requirements.txt + README | ✅ |
-| Streamlit app — CSV upload | ✅ |
-| Streamlit app — Model selection dropdown | ✅ |
-| Streamlit app — Metrics display | ✅ |
-| Streamlit app — Confusion matrix / classification report | ✅ |
+| Dataset from UCI/Kaggle (>=12 features, >=500 instances) | Done — UCI Adult: 14 features, 30,162 instances |
+| 6 Classification models implemented | Done — LR, DT, KNN, NB, RF, XGBoost |
+| 6 Evaluation metrics per model | Done — Accuracy, AUC, Precision, Recall, F1, MCC |
+| GitHub repository with source code + requirements.txt + README | Done |
+| Streamlit app — CSV upload | Done |
+| Streamlit app — Model selection dropdown | Done |
+| Streamlit app — Metrics display | Done |
+| Streamlit app — Confusion matrix / classification report | Done |
 | BITS Virtual Lab screenshot | Pending |
-| Live Streamlit app link | Pending deployment |
+| Live Streamlit app link | Done — https://mlassignment2-kmepmbozytsyeyf3yerkyb.streamlit.app/ |
 
 ---
 
 ## Author
 
-**[Your Name]**
+**Aravindan B**
 - M.Tech (AIML/DSE), BITS Pilani WILP
 - Machine Learning — Assignment 2, February 2026
-- GitHub: [Your GitHub Profile]
-- Email: [Your Email]
+- GitHub: [algoyog](https://github.com/algoyog)
+- Email: 2025aa05026@wilp.bits-pilani.ac.in

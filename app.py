@@ -1,17 +1,3 @@
-"""
-Machine Learning Assignment 2 - Streamlit Web Application
-==========================================================
-
-This application demonstrates 6 classification models with interactive features:
-- Dataset upload
-- Model selection
-- Evaluation metrics display
-- Confusion matrix and classification report
-
-Author: Student
-Date: February 2026
-"""
-
 import streamlit as st
 import pandas as pd
 import numpy as np
@@ -23,7 +9,6 @@ from utils.ml_utils import preprocess_data, initialize_models, calculate_all_met
 
 warnings.filterwarnings('ignore')
 
-# ==================== PAGE CONFIGURATION ====================
 st.set_page_config(
     page_title="ML Classification Models",
     page_icon="🤖",
@@ -31,7 +16,6 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# ==================== CUSTOM CSS ====================
 st.markdown("""
     <style>
     .main-header {
@@ -60,19 +44,8 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 
-# ==================== HELPER FUNCTIONS ====================
-
 @st.cache_data
 def load_data(uploaded_file):
-    """
-    Load CSV data from uploaded file.
-    
-    Args:
-        uploaded_file: Streamlit uploaded file object
-        
-    Returns:
-        DataFrame: Loaded dataset
-    """
     try:
         df = pd.read_csv(uploaded_file)
         return df
@@ -81,43 +54,24 @@ def load_data(uploaded_file):
         return None
 
 
-
 def display_metric_cards(metrics):
-    """
-    Display metrics in a visually appealing card format.
-    
-    Args:
-        metrics (dict): Dictionary of metrics
-    """
     cols = st.columns(3)
     metric_list = list(metrics.items())
-    
     for idx, (metric_name, value) in enumerate(metric_list):
         col_idx = idx % 3
         with cols[col_idx]:
-            st.metric(
-                label=metric_name,
-                value=f"{value:.4f}",
-                delta=None
-            )
+            st.metric(label=metric_name, value=f"{value:.4f}", delta=None)
 
-
-# ==================== MAIN APPLICATION ====================
 
 def main():
-    """Main Streamlit application."""
-    
-    # Header
-    st.markdown('<h1 class="main-header">🤖 ML Classification Models Dashboard</h1>', 
+    st.markdown('<h1 class="main-header">🤖 ML Classification Models Dashboard</h1>',
                 unsafe_allow_html=True)
     st.markdown("---")
-    
-    # Sidebar
+
     with st.sidebar:
         st.header("⚙️ Configuration")
         st.markdown("---")
-        
-        # Random state
+
         random_state = st.number_input(
             "Random State",
             min_value=0,
@@ -125,8 +79,7 @@ def main():
             value=42,
             help="Set random state for reproducibility"
         )
-        
-        # Test size
+
         test_size = st.slider(
             "Test Set Size",
             min_value=0.1,
@@ -135,7 +88,7 @@ def main():
             step=0.05,
             help="Proportion of data for testing"
         )
-        
+
         st.markdown("---")
         st.markdown("""
         ### 📊 Models Implemented
@@ -145,7 +98,7 @@ def main():
         4. Naive Bayes
         5. Random Forest
         6. XGBoost
-        
+
         ### 📈 Metrics Calculated
         - Accuracy
         - AUC Score
@@ -154,179 +107,147 @@ def main():
         - F1 Score
         - MCC Score
         """)
-    
-    # Main content
+
     st.markdown("## 📁 Step 1: Upload Dataset")
-    
-    # File uploader
+
     uploaded_file = st.file_uploader(
         "Upload your CSV dataset (test data recommended for free tier)",
         type=['csv'],
         help="Upload a CSV file with your test data"
     )
-    
+
     if uploaded_file is not None:
-        # Load data
         df = load_data(uploaded_file)
-        
+
         if df is not None:
             st.success(f"✅ Dataset loaded successfully! Shape: {df.shape}")
-            
-            # Display dataset info
+
             with st.expander("📊 View Dataset Preview"):
                 st.dataframe(df.head(10), use_container_width=True)
-                
+
                 col1, col2 = st.columns(2)
                 with col1:
                     st.write("**Dataset Info:**")
                     st.write(f"- Rows: {df.shape[0]}")
                     st.write(f"- Columns: {df.shape[1]}")
-                
+
                 with col2:
                     st.write("**Column Types:**")
                     st.write(df.dtypes.value_counts())
-            
+
             st.markdown("---")
             st.markdown("## 🎯 Step 2: Select Target Column")
-            
-            # Target column selection
+
             target_column = st.selectbox(
                 "Select the target variable (column to predict)",
                 options=df.columns.tolist(),
                 help="Choose the column you want to predict"
             )
-            
+
             if target_column:
                 st.info(f"🎯 Target column: **{target_column}**")
-                
-                # Check class distribution
+
                 if df[target_column].dtype == 'object' or df[target_column].nunique() < 20:
                     st.write("**Class Distribution:**")
                     class_dist = df[target_column].value_counts()
                     st.bar_chart(class_dist)
-                
+
                 st.markdown("---")
                 st.markdown("## 🤖 Step 3: Train Models")
-                
+
                 if st.button("🚀 Train All Models", type="primary"):
                     with st.spinner("Training models... This may take a moment..."):
                         try:
-                            # Preprocess data
                             X, y, label_encoder = preprocess_data(df, target_column)
-                            
-                            # Split data
+
                             X_train, X_test, y_train, y_test = train_test_split(
-                                X, y, test_size=test_size, 
+                                X, y, test_size=test_size,
                                 random_state=random_state, stratify=y
                             )
-                            
-                            # Scale features
+
                             scaler = StandardScaler()
                             X_train_scaled = scaler.fit_transform(X_train)
                             X_test_scaled = scaler.transform(X_test)
-                            
+
                             st.success(f"✅ Data preprocessed! Training set: {X_train.shape[0]}, Test set: {X_test.shape[0]}")
-                            
-                            # Initialize models
+
                             models = initialize_models(random_state)
-                            
-                            # Store results
                             results = {}
                             trained_models = {}
-                            
-                            # Progress bar
+
                             progress_bar = st.progress(0)
                             status_text = st.empty()
-                            
-                            # Train each model
+
                             for idx, (model_name, model) in enumerate(models.items()):
                                 status_text.text(f"Training {model_name}...")
-                                
-                                # Train
                                 model.fit(X_train_scaled, y_train)
-                                
-                                # Predict
                                 y_pred = model.predict(X_test_scaled)
                                 y_pred_proba = None
                                 if hasattr(model, 'predict_proba'):
                                     y_pred_proba = model.predict_proba(X_test_scaled)
-                                
-                                # Calculate metrics
                                 metrics = calculate_all_metrics(y_test, y_pred, y_pred_proba)
                                 results[model_name] = metrics
-                                
-                                # Store model and predictions
                                 trained_models[model_name] = {
                                     'model': model,
                                     'y_pred': y_pred,
                                     'y_true': y_test
                                 }
-                                
-                                # Update progress
                                 progress_bar.progress((idx + 1) / len(models))
-                            
+
                             status_text.text("Training complete!")
                             st.success("✅ All models trained successfully!")
-                            
-                            # Store in session state
+
                             st.session_state['results'] = results
                             st.session_state['trained_models'] = trained_models
                             st.session_state['label_encoder'] = label_encoder
                             st.session_state['y_test'] = y_test
-                            
+
                         except Exception as e:
                             st.error(f"❌ Error during training: {str(e)}")
                             st.exception(e)
-                
-                # Display results if available
+
                 if 'results' in st.session_state:
                     st.markdown("---")
                     st.markdown("## 📊 Step 4: View Results")
-                    
-                    # Model selection dropdown
+
                     st.markdown("### 🔍 Select Model to Analyze")
                     selected_model = st.selectbox(
                         "Choose a model",
                         options=list(st.session_state['results'].keys()),
                         help="Select a model to view detailed metrics"
                     )
-                    
+
                     if selected_model:
                         st.markdown(f"### 📈 Results for: **{selected_model}**")
-                        
-                        # Display metrics
+
                         st.markdown("#### Evaluation Metrics")
                         metrics = st.session_state['results'][selected_model]
                         display_metric_cards(metrics)
-                        
-                        # Metrics table
+
                         st.markdown("#### Detailed Metrics Table")
                         metrics_df = pd.DataFrame([metrics])
                         st.dataframe(
                             metrics_df.style.format("{:.4f}"),
                             use_container_width=True
                         )
-                        
-                        # Confusion Matrix
+
                         st.markdown("#### Confusion Matrix")
                         model_data = st.session_state['trained_models'][selected_model]
                         y_true = model_data['y_true']
                         y_pred = model_data['y_pred']
-                        
+
                         cm = confusion_matrix(y_true, y_pred)
-                        
-                        # Get class names
+
                         class_names = None
                         if st.session_state['label_encoder'] is not None:
                             class_names = st.session_state['label_encoder'].classes_
-                        
+
                         fig = plot_confusion_matrix(cm, class_names)
                         st.pyplot(fig)
-                        
-                        # Classification Report
+
                         st.markdown("#### Classification Report")
                         report = classification_report(
-                            y_true, y_pred, 
+                            y_true, y_pred,
                             target_names=class_names,
                             output_dict=True
                         )
@@ -335,29 +256,26 @@ def main():
                             report_df.style.format("{:.4f}"),
                             use_container_width=True
                         )
-                    
-                    # Compare all models
+
                     st.markdown("---")
                     st.markdown("### 📊 Model Comparison Table")
-                    
+
                     results_df = pd.DataFrame(st.session_state['results']).T
                     results_df = results_df.round(4)
-                    
+
                     st.dataframe(
                         results_df.style.highlight_max(axis=0, color='lightgreen'),
                         use_container_width=True
                     )
-                    
-                    # Best model
+
                     best_model = results_df['Accuracy'].idxmax()
                     best_accuracy = results_df['Accuracy'].max()
-                    
+
                     st.success(f"🏆 **Best Model:** {best_model} (Accuracy: {best_accuracy:.4f})")
-                    
-                    # Download results
+
                     st.markdown("---")
                     st.markdown("### 💾 Download Results")
-                    
+
                     csv = results_df.to_csv()
                     st.download_button(
                         label="📥 Download Results as CSV",
@@ -365,31 +283,29 @@ def main():
                         file_name="model_comparison_results.csv",
                         mime="text/csv"
                     )
-    
+
     else:
-        # Instructions when no file uploaded
         st.info("👆 Please upload a CSV file to get started!")
-        
+
         st.markdown("""
         ### 📝 Instructions:
-        
+
         1. **Upload Dataset**: Upload your test dataset in CSV format
         2. **Select Target**: Choose the column you want to predict
         3. **Train Models**: Click the button to train all 6 models
         4. **Select Model**: Choose a model from the dropdown to view detailed results
         5. **View Results**: Explore metrics, confusion matrix, and classification report
-        
+
         ### 📋 Requirements:
         - Minimum 12 features
         - Minimum 500 instances
         - CSV format
         - Clear target column
-        
+
         ### ⚠️ Note:
         For Streamlit free tier, upload only test data to avoid capacity issues.
         """)
-    
-    # Footer
+
     st.markdown("---")
     st.markdown("""
     <div style='text-align: center; color: gray;'>
