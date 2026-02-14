@@ -162,10 +162,9 @@ mlassignment2/
 |   `-- ml_utils.py               # Shared utilities (preprocessing, models, metrics, plots)
 |
 `-- docs/
-    |-- START_HERE.md             # Quick start guide
-    |-- PACKAGE_SUMMARY.md        # Package overview
-    |-- DEPLOYMENT_GUIDE.md       # Deployment checklist
-    `-- SUBMISSION_TEMPLATE.md    # PDF submission template
+    |-- 2025AA05026_ML_Assignment.pdf
+    |-- ML_Assignment_2.pdf        
+
 ```
 
 ---
