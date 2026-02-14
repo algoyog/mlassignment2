@@ -2,54 +2,46 @@
 
 ## Problem Statement
 
-This project implements a comprehensive machine learning classification pipeline featuring six different classification algorithms applied to the UCI Adult Income dataset. The goal is to predict whether an individual's annual income exceeds $50K based on census attributes, and to compare the performance of traditional ML models (Logistic Regression, Decision Tree, K-Nearest Neighbors, Naive Bayes) against ensemble methods (Random Forest and XGBoost) using six evaluation metrics. The project includes an interactive Streamlit web application for model demonstration and evaluation.
+This project implements a comprehensive machine learning classification pipeline featuring six different classification algorithms. The goal is to compare the performance of traditional ML models (Logistic Regression, Decision Tree, K-Nearest Neighbors, Naive Bayes) against ensemble methods (Random Forest and XGBoost) using six evaluation metrics. The pipeline is demonstrated using the Wine Quality Red dataset and includes an interactive Streamlit web application that supports any CSV classification dataset.
 
 ---
 
 ## Dataset Description
 
 ### Dataset Information
-- **Dataset Name**: UCI Adult Income Dataset (Census Income)
-- **Source**: [UCI Machine Learning Repository - Adult Dataset](https://archive.ics.uci.edu/ml/datasets/adult)
-- **Type**: Binary Classification
-- **URL**: https://archive.ics.uci.edu/ml/machine-learning-databases/adult/adult.data
+- **Dataset Name**: Wine Quality Red Dataset
+- **Source**: [UCI Machine Learning Repository - Wine Quality](https://archive.ics.uci.edu/ml/datasets/wine+quality)
+- **Type**: Multi-class Classification
+- **File**: `input/wine_quality_red.csv`
 
 ### Dataset Characteristics
-- **Number of Instances**: 30,162 (after removing missing values) — Minimum requirement: 500 (met)
-- **Number of Features**: 14 — Minimum requirement: 12 (met)
-- **Target Variable**: `income`
-- **Class Distribution**:
-  - Class 0 (<=50K): 22,654 samples (75.1%)
-  - Class 1 (>50K): 7,508 samples (24.9%)
+- **Number of Instances**: 1,599 — Minimum requirement: 500 (met)
+- **Number of Features**: 12 — Minimum requirement: 12 (met)
+- **Target Variable**: `quality` (wine quality score)
 
 ### Features Overview
 
 | Feature | Type | Description |
 |---------|------|-------------|
-| age | Numerical | Age of the individual |
-| workclass | Categorical | Employment type (Private, Self-emp, Gov, etc.) |
-| fnlwgt | Numerical | Census sampling weight |
-| education | Categorical | Highest education level attained |
-| education_num | Numerical | Education level as a number (1-16) |
-| marital_status | Categorical | Marital status |
-| occupation | Categorical | Type of occupation |
-| relationship | Categorical | Relationship status in household |
-| race | Categorical | Race of the individual |
-| sex | Categorical | Gender |
-| capital_gain | Numerical | Capital gains recorded |
-| capital_loss | Numerical | Capital losses recorded |
-| hours_per_week | Numerical | Average hours worked per week |
-| native_country | Categorical | Country of origin |
+| fixed acidity | Numerical | Fixed acidity level |
+| volatile acidity | Numerical | Volatile acidity level |
+| citric acid | Numerical | Citric acid content |
+| residual sugar | Numerical | Residual sugar content |
+| chlorides | Numerical | Chloride content |
+| free sulfur dioxide | Numerical | Free sulfur dioxide level |
+| total sulfur dioxide | Numerical | Total sulfur dioxide level |
+| density | Numerical | Density of wine |
+| pH | Numerical | pH level |
+| sulphates | Numerical | Sulphate content |
+| alcohol | Numerical | Alcohol percentage |
+| quality | Numerical | Wine quality score (target) |
 
-- **Numerical Features (6)**: age, fnlwgt, education_num, capital_gain, capital_loss, hours_per_week
-- **Categorical Features (8)**: workclass, education, marital_status, occupation, relationship, race, sex, native_country
-- **Missing Values**: None (rows with missing values removed using dropna)
+- **All Features are Numerical (12)**
+- **Missing Values**: None
 
 ### Data Preprocessing Steps
-1. **Encoding**: All 8 categorical features encoded using Label Encoding
-2. **Target Encoding**: Target variable (income) encoded — `<=50K` to 0, `>50K` to 1
-3. **Scaling**: All features normalized using StandardScaler
-4. **Train-Test Split**: 80-20 split with stratification to preserve class balance
+1. **Scaling**: All features normalized using StandardScaler
+2. **Train-Test Split**: 80-20 split with stratification to preserve class balance
 
 ---
 
@@ -62,12 +54,12 @@ All six models were implemented using scikit-learn and XGBoost libraries, traine
 
 | ML Model Name | Accuracy | AUC | Precision | Recall | F1 | MCC |
 |--------------|----------|-----|-----------|--------|----|----|
-| **Logistic Regression** | 0.8175 | 0.8501 | 0.8060 | 0.8175 | 0.8018 | 0.4613 |
-| **Decision Tree** | 0.8508 | 0.8855 | 0.8446 | 0.8508 | 0.8451 | 0.5789 |
-| **K-Nearest Neighbors** | 0.8190 | 0.8498 | 0.8133 | 0.8190 | 0.8154 | 0.4993 |
-| **Naive Bayes** | 0.7978 | 0.8498 | 0.7830 | 0.7978 | 0.7697 | 0.3798 |
-| **Random Forest** | 0.8589 | 0.9136 | 0.8534 | 0.8589 | 0.8526 | 0.6003 |
-| **XGBoost** | 0.8671 | 0.9243 | 0.8624 | 0.8671 | 0.8624 | 0.6269 |
+| **Logistic Regression** | 0.5906 | 0.7555 | 0.5695 | 0.5906 | 0.5673 | 0.3250 |
+| **Decision Tree** | 0.5938 | 0.7080 | 0.5908 | 0.5938 | 0.5921 | 0.3639 |
+| **K-Nearest Neighbors** | 0.6094 | 0.7476 | 0.5841 | 0.6094 | 0.5959 | 0.3733 |
+| **Naive Bayes** | 0.5625 | 0.7377 | 0.5745 | 0.5625 | 0.5681 | 0.3299 |
+| **Random Forest** | 0.6625 | 0.8338 | 0.6377 | 0.6625 | 0.6462 | 0.4547 |
+| **XGBoost** | 0.6781 | 0.8171 | 0.6657 | 0.6781 | 0.6687 | 0.4867 |
 
 ---
 
@@ -75,19 +67,19 @@ All six models were implemented using scikit-learn and XGBoost libraries, traine
 
 | ML Model Name | Observation about Model Performance |
 |--------------|-------------------------------------|
-| **Logistic Regression** | Logistic Regression achieves 81.75% accuracy with AUC 0.8501, serving as a solid linear baseline. It performs well because features like education_num, age, and hours_per_week have approximately linear relationships with income. The model converges reliably with lbfgs solver and is the most interpretable among the six, though it falls short on non-linear patterns compared to tree-based models. |
-| **Decision Tree** | Decision Tree achieves 85.08% accuracy with AUC 0.8855 and MCC 0.5789. With max_depth=10, it successfully captures non-linear interactions between occupation, marital_status, and education without extreme overfitting. It outperforms linear models significantly while remaining interpretable through decision rules. However, it is surpassed by ensemble methods which reduce its variance. |
-| **K-Nearest Neighbors** | KNN with k=5 achieves 81.90% accuracy with AUC 0.8498, slightly edging out Logistic Regression. Feature scaling via StandardScaler is essential for KNN's distance calculations and was correctly applied. On 30,162 instances, it is computationally heavier at prediction time but benefits from the demographic clustering present in the Adult Income dataset. |
-| **Naive Bayes** | Gaussian Naive Bayes achieves the lowest accuracy at 79.78% with MCC 0.3798, the weakest MCC among all models. The feature independence assumption does not hold well here — features like education, occupation, and marital_status are correlated — limiting its performance. Despite this, it achieves a competitive AUC of 0.8498, indicating reasonable probability calibration, and is the fastest model to train. |
-| **Random Forest** | Random Forest achieves 85.89% accuracy with AUC 0.9136 and MCC 0.6003, ranking second overall. The ensemble of 100 trees reduces overfitting through bagging and random feature subsets. Its AUC of 0.9136 reflects excellent discriminative ability. It consistently outperforms all traditional models across every metric and provides feature importance insights for interpretability. |
-| **XGBoost** | XGBoost is the best performing model with 86.71% accuracy, highest AUC (0.9243), F1 (0.8624), and MCC (0.6269). Its gradient boosting framework iteratively corrects errors from previous trees, capturing complex non-linear patterns in the dataset. With learning_rate=0.1, max_depth=6, and 100 estimators, it is well-tuned and demonstrates the clear advantage of advanced ensemble techniques over traditional classifiers on this tabular dataset. |
+| **Logistic Regression** | Logistic Regression achieves 59.06% accuracy with AUC 0.7555, serving as a solid linear baseline. It performs reasonably because several wine features like alcohol and volatile acidity have approximately linear relationships with quality. The model converges reliably with lbfgs solver and is the most interpretable among the six, though it falls short on non-linear patterns compared to tree-based models. |
+| **Decision Tree** | Decision Tree achieves 59.38% accuracy with AUC 0.7080 and MCC 0.3639. With max_depth=10, it captures non-linear interactions between features like alcohol, volatile acidity, and sulphates. It slightly outperforms Logistic Regression while remaining interpretable through decision rules. However, it is surpassed by ensemble methods which reduce its variance. |
+| **K-Nearest Neighbors** | KNN with k=5 achieves 60.94% accuracy with AUC 0.7476, outperforming both linear models. Feature scaling via StandardScaler is essential for KNN's distance calculations and was correctly applied. On 1,599 instances, it is computationally efficient at prediction time and benefits from the natural clustering present in the Wine Quality dataset. |
+| **Naive Bayes** | Gaussian Naive Bayes achieves the lowest accuracy at 56.25% with MCC 0.3299, the weakest among all models. The feature independence assumption does not hold well here — features like fixed acidity, citric acid, and pH are correlated — limiting its performance. Despite this, it achieves AUC of 0.7377, indicating reasonable probability calibration, and is the fastest model to train. |
+| **Random Forest** | Random Forest achieves 66.25% accuracy with AUC 0.8338 and MCC 0.4547, ranking second overall. The ensemble of 100 trees reduces overfitting through bagging and random feature subsets. Its AUC of 0.8338 reflects the best discriminative ability among all models. It consistently outperforms all traditional models across every metric and provides feature importance insights for interpretability. |
+| **XGBoost** | XGBoost is the best performing model with 67.81% accuracy, highest F1 (0.6687), and highest MCC (0.4867). Its gradient boosting framework iteratively corrects errors from previous trees, capturing complex non-linear patterns in the wine quality dataset. With learning_rate=0.1, max_depth=6, and 100 estimators, it demonstrates the clear advantage of advanced ensemble techniques over traditional classifiers on this multi-class tabular dataset. |
 
 **Overall Insights**:
-- Best performing model: **XGBoost** with 86.71% accuracy and highest AUC (0.9243), F1 (0.8624), and MCC (0.6269)
-- Ensemble methods (Random Forest and XGBoost) outperform all traditional algorithms across every metric
-- Naive Bayes is the weakest model (79.78% accuracy, MCC 0.3798) due to its feature independence assumption not holding well here
-- All models achieved AUC > 0.84, indicating good discriminative ability despite class imbalance (75%/25%)
-- Model selection should balance performance metrics with computational requirements for deployment
+- Best performing model: **XGBoost** with 67.81% accuracy, highest F1 (0.6687), and highest MCC (0.4867)
+- Ensemble methods (Random Forest and XGBoost) significantly outperform all traditional algorithms across every metric
+- Naive Bayes is the weakest model (56.25% accuracy, MCC 0.3299) due to its feature independence assumption not holding well for correlated wine features
+- All models achieved AUC > 0.70, indicating reasonable discriminative ability for this challenging multi-class problem
+- The multi-class nature (6 quality levels) makes this dataset harder than binary classification, explaining the moderate accuracy values
 
 ---
 
@@ -158,9 +150,7 @@ mlassignment2/
 |   `-- model_training.ipynb      # Jupyter notebook for model training and evaluation
 |
 |-- input/
-|   |-- adult_income.csv          # UCI Adult Income dataset
-|   |-- bank_marketing.csv        # Bank Marketing dataset (alternate)
-|   `-- wine_quality_red.csv      # Wine Quality dataset (alternate)
+|   `-- wine_quality_red.csv      # Wine Quality Red dataset
 |
 |-- output/
 |   |-- model_comparison_results.csv   # Generated metrics table
@@ -182,13 +172,16 @@ mlassignment2/
 
 ## Streamlit App Features
 
-1. **Dataset Upload** - Upload CSV files directly through the UI
-2. **Model Selection** - Dropdown to select from 6 trained models
-3. **Metrics Display** - All 6 evaluation metrics shown in metric cards
-4. **Confusion Matrix** - Visual heatmap of prediction results
-5. **Classification Report** - Detailed per-class performance breakdown
-6. **Model Comparison Table** - Side-by-side comparison of all 6 models
-7. **Results Download** - Export results as CSV
+The Streamlit app is a general-purpose classification dashboard that works with any CSV dataset. It was tested and demonstrated on the BITS Virtual Lab using the Wine Quality Red dataset (1,599 instances, 12 features).
+
+1. **Dataset Upload** - Upload any CSV classification dataset
+2. **Target Column Selection** - Select the target variable with class distribution preview
+3. **Model Training** - Train all 6 models with configurable random state and test size
+4. **Metrics Display** - All 6 evaluation metrics shown in metric cards
+5. **Confusion Matrix** - Visual heatmap of prediction results
+6. **Classification Report** - Detailed per-class performance breakdown
+7. **Model Comparison Table** - Side-by-side comparison of all 6 models
+8. **Results Download** - Export results as CSV
 
 ---
 
@@ -208,7 +201,7 @@ mlassignment2/
 
 | Requirement | Status |
 |-------------|--------|
-| Dataset from UCI/Kaggle (>=12 features, >=500 instances) | Done — UCI Adult Income: 14 features, 30,162 instances |
+| Dataset from UCI/Kaggle (>=12 features, >=500 instances) | Done — Wine Quality Red: 12 features, 1,599 instances |
 | 6 Classification models implemented | Done — LR, DT, KNN, NB, Random Forest, XGBoost |
 | 6 Evaluation metrics per model | Done — Accuracy, AUC, Precision, Recall, F1, MCC |
 | GitHub repository with source code + requirements.txt + README | Done |
@@ -216,7 +209,7 @@ mlassignment2/
 | Streamlit app — Model selection dropdown | Done |
 | Streamlit app — Metrics display | Done |
 | Streamlit app — Confusion matrix / classification report | Done |
-| BITS Virtual Lab screenshot | Pending |
+| BITS Virtual Lab screenshot | Done — Streamlit app tested with wine_quality_red.csv on BITS Virtual Lab |
 | Live Streamlit app link | Done — https://mlassignment2-kmepmbozytsyeyf3yerkyb.streamlit.app/ |
 
 ---

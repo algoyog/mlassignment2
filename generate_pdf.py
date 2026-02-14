@@ -171,11 +171,11 @@ def main():
         os.path.join('C:/Users/sbara/Desktop', f'{i}.png') for i in [5, 4, 3, 2, 1]
     ]
     SCREENSHOT_CAPTIONS = [
-        'Step 1: CSV Upload - wine_quality_red.csv loaded successfully (1599 rows, 12 features)',
-        'Step 2: Dataset Preview - Feature table and dataset information displayed',
-        'Step 2: Target Column Selection - Class distribution visualization for "quality"',
-        'Step 3: Model Training - All 6 models trained successfully on BITS Virtual Lab',
-        'Step 4: Model Comparison Table - All 6 models with all 6 evaluation metrics',
+        'CSV Upload - wine_quality_red.csv loaded successfully (1599 rows, 12 features)',
+        'Dataset Preview - Feature table and dataset information',
+        'Target Column Selection - Class distribution visualization for "quality"',
+        'Model Training - All 6 models trained successfully',
+        'Model Comparison Table - All 6 models with all 6 evaluation metrics',
     ]
 
     pdf = SubmissionPDF('P', 'mm', 'A4')
@@ -271,7 +271,7 @@ def main():
         ('README.md', 'Complete documentation'),
         ('.gitignore', 'Git ignore rules'),
         ('model/model_training.ipynb', 'Jupyter notebook for model training'),
-        ('input/adult_income.csv', 'UCI Adult Income dataset'),
+        ('input/wine_quality_red.csv', 'Wine Quality Red dataset'),
         ('output/', 'Generated results and charts'),
         ('utils/ml_utils.py', 'Shared ML utilities'),
     ]
@@ -338,30 +338,25 @@ def main():
     pdf.sub_heading('Problem Statement')
     pdf.body_text(
         'This project implements a comprehensive machine learning classification pipeline featuring '
-        'six different classification algorithms applied to the UCI Adult Income dataset. The goal is '
-        'to predict whether an individual\'s annual income exceeds $50K based on census attributes, '
-        'and to compare the performance of traditional ML models (Logistic Regression, Decision Tree, '
-        'K-Nearest Neighbors, Naive Bayes) against ensemble methods (Random Forest and XGBoost) '
-        'using six evaluation metrics.'
+        'six different classification algorithms. The goal is to compare the performance of traditional '
+        'ML models (Logistic Regression, Decision Tree, K-Nearest Neighbors, Naive Bayes) against '
+        'ensemble methods (Random Forest and XGBoost) using six evaluation metrics. The pipeline is '
+        'demonstrated using the Wine Quality Red dataset and includes an interactive Streamlit web '
+        'application that supports any CSV classification dataset.'
     )
 
     # Dataset Description
     pdf.sub_heading('Dataset Description')
-    pdf.bold_label_value('Dataset Name: ', 'UCI Adult Income Dataset (Census Income)')
+    pdf.bold_label_value('Dataset Name: ', 'Wine Quality Red Dataset')
     pdf.bold_label_value('Source: ', 'UCI Machine Learning Repository')
-    pdf.bold_label_value('Type: ', 'Binary Classification')
-    pdf.bold_label_value('Instances: ', '30,162 (Requirement >= 500: MET)')
-    pdf.bold_label_value('Features: ', '14 (Requirement >= 12: MET)')
-    pdf.bold_label_value('Target: ', 'income (<=50K or >50K)')
+    pdf.bold_label_value('Type: ', 'Multi-class Classification')
+    pdf.bold_label_value('Instances: ', '1,599 (Requirement >= 500: MET)')
+    pdf.bold_label_value('Features: ', '12 (Requirement >= 12: MET)')
+    pdf.bold_label_value('Target: ', 'quality (wine quality score)')
     pdf.ln(2)
-    pdf.body_text('Class Distribution: Class 0 (<=50K): 22,654 samples (75.1%) | Class 1 (>50K): 7,508 samples (24.9%)')
-    pdf.ln(1)
-    pdf.body_text('Numerical Features (6): age, fnlwgt, education_num, capital_gain, capital_loss, hours_per_week')
-    pdf.body_text('Categorical Features (8): workclass, education, marital_status, occupation, relationship, race, sex, native_country')
+    pdf.body_text('Features (all numerical): fixed acidity, volatile acidity, citric acid, residual sugar, chlorides, free sulfur dioxide, total sulfur dioxide, density, pH, sulphates, alcohol, quality')
     pdf.ln(2)
     pdf.sub_heading('Data Preprocessing Steps')
-    pdf.bullet('Label Encoding on all 8 categorical features')
-    pdf.bullet('Target encoded: <=50K to 0, >50K to 1')
     pdf.bullet('StandardScaler normalization on all features')
     pdf.bullet('80-20 stratified train-test split')
 
@@ -373,18 +368,18 @@ def main():
     headers = ['ML Model Name', 'Accuracy', 'AUC', 'Precision', 'Recall', 'F1', 'MCC']
     col_widths = [48, 22, 22, 24, 22, 22, 22]
     rows = [
-        ['Logistic Regression',  '0.8175', '0.8501', '0.8060', '0.8175', '0.8018', '0.4613'],
-        ['Decision Tree',        '0.8508', '0.8855', '0.8446', '0.8508', '0.8451', '0.5789'],
-        ['K-Nearest Neighbors',  '0.8190', '0.8498', '0.8133', '0.8190', '0.8154', '0.4993'],
-        ['Naive Bayes',          '0.7978', '0.8498', '0.7830', '0.7978', '0.7697', '0.3798'],
-        ['Random Forest',        '0.8589', '0.9136', '0.8534', '0.8589', '0.8526', '0.6003'],
-        ['XGBoost',              '0.8671', '0.9243', '0.8624', '0.8671', '0.8624', '0.6269'],
+        ['Logistic Regression',  '0.5906', '0.7555', '0.5695', '0.5906', '0.5673', '0.3250'],
+        ['Decision Tree',        '0.5938', '0.7080', '0.5908', '0.5938', '0.5921', '0.3639'],
+        ['K-Nearest Neighbors',  '0.6094', '0.7476', '0.5841', '0.6094', '0.5959', '0.3733'],
+        ['Naive Bayes',          '0.5625', '0.7377', '0.5745', '0.5625', '0.5681', '0.3299'],
+        ['Random Forest',        '0.6625', '0.8338', '0.6377', '0.6625', '0.6462', '0.4547'],
+        ['XGBoost',              '0.6781', '0.8171', '0.6657', '0.6781', '0.6687', '0.4867'],
     ]
     pdf.add_table(headers, rows, col_widths)
 
     pdf.set_font('Helvetica', 'B', 9)
     pdf.set_text_color(34, 120, 34)
-    pdf.cell(0, 6, 'Best Model: XGBoost (Accuracy = 0.8671, AUC = 0.9243)', new_x='LMARGIN', new_y='NEXT')
+    pdf.cell(0, 6, 'Best Model: XGBoost (Accuracy = 0.6781, AUC = 0.8171)', new_x='LMARGIN', new_y='NEXT')
     pdf.set_text_color(50, 50, 50)
     pdf.ln(4)
 
@@ -394,45 +389,45 @@ def main():
 
     observations = [
         ('Logistic Regression',
-         'Achieves 81.75% accuracy with AUC 0.8501, serving as a solid linear baseline. '
-         'It performs well because features like education_num, age, and hours_per_week have approximately '
-         'linear relationships with income. The model converges reliably with lbfgs solver and is the most '
+         'Achieves 59.06% accuracy with AUC 0.7555, serving as a solid linear baseline. '
+         'It performs reasonably because several wine features like alcohol and volatile acidity have approximately '
+         'linear relationships with quality. The model converges reliably with lbfgs solver and is the most '
          'interpretable among the six, though it falls short on non-linear patterns compared to tree-based models.'),
         ('Decision Tree',
-         'Achieves 85.08% accuracy with AUC 0.8855 and MCC 0.5789. With max_depth=10, it successfully '
-         'captures non-linear interactions between occupation, marital_status, and education without extreme '
-         'overfitting. It outperforms linear models significantly while remaining interpretable through decision '
-         'rules. However, it is surpassed by ensemble methods which reduce its variance.'),
+         'Achieves 59.38% accuracy with AUC 0.7080 and MCC 0.3639. With max_depth=10, it captures non-linear '
+         'interactions between features like alcohol, volatile acidity, and sulphates. It slightly outperforms '
+         'Logistic Regression while remaining interpretable through decision rules. However, it is surpassed by '
+         'ensemble methods which reduce its variance.'),
         ('K-Nearest Neighbors',
-         'KNN with k=5 achieves 81.90% accuracy with AUC 0.8498, slightly edging out Logistic Regression. '
+         'KNN with k=5 achieves 60.94% accuracy with AUC 0.7476, outperforming both linear models. '
          'Feature scaling via StandardScaler is essential for KNN distance calculations and was correctly applied. '
-         'On 30,162 instances, it is computationally heavier at prediction time but benefits from the demographic '
-         'clustering present in the Adult Income dataset.'),
+         'On 1,599 instances, it is computationally efficient at prediction time and benefits from the natural '
+         'clustering present in the Wine Quality dataset.'),
         ('Naive Bayes',
-         'Gaussian Naive Bayes achieves the lowest accuracy at 79.78% with MCC 0.3798. The feature independence '
-         'assumption does not hold well here as features like education, occupation, and marital_status are correlated, '
-         'limiting its performance. Despite this, it achieves a competitive AUC of 0.8498, indicating reasonable '
-         'probability calibration, and is the fastest model to train.'),
+         'Gaussian Naive Bayes achieves the lowest accuracy at 56.25% with MCC 0.3299. The feature independence '
+         'assumption does not hold well here as features like fixed acidity, citric acid, and pH are correlated, '
+         'limiting its performance. Despite this, it achieves AUC of 0.7377, indicating reasonable probability '
+         'calibration, and is the fastest model to train.'),
         ('Random Forest',
-         'Achieves 85.89% accuracy with AUC 0.9136 and MCC 0.6003, ranking second overall. The ensemble of 100 '
-         'trees reduces overfitting through bagging and random feature subsets. Its AUC of 0.9136 reflects excellent '
-         'discriminative ability. It consistently outperforms all traditional models across every metric and provides '
-         'feature importance insights for interpretability.'),
+         'Achieves 66.25% accuracy with AUC 0.8338 and MCC 0.4547, ranking second overall. The ensemble of 100 '
+         'trees reduces overfitting through bagging and random feature subsets. Its AUC of 0.8338 reflects the best '
+         'discriminative ability among all models. It consistently outperforms all traditional models across every '
+         'metric and provides feature importance insights for interpretability.'),
         ('XGBoost',
-         'Best performing model with 86.71% accuracy, highest AUC (0.9243), F1 (0.8624), and MCC (0.6269). '
+         'Best performing model with 67.81% accuracy, highest F1 (0.6687), and highest MCC (0.4867). '
          'Its gradient boosting framework iteratively corrects errors from previous trees, capturing complex '
          'non-linear patterns. With learning_rate=0.1, max_depth=6, and 100 estimators, it demonstrates the clear '
-         'advantage of advanced ensemble techniques over traditional classifiers on this tabular dataset.'),
+         'advantage of advanced ensemble techniques over traditional classifiers on this multi-class dataset.'),
     ]
     pdf.add_observation_table(observations)
 
     # Overall Insights
     pdf.ln(3)
     pdf.sub_heading('Overall Insights')
-    pdf.bullet('Best performing model: XGBoost with 86.71% accuracy, AUC 0.9243, F1 0.8624, MCC 0.6269')
-    pdf.bullet('Ensemble methods (Random Forest and XGBoost) outperform all traditional algorithms across every metric')
-    pdf.bullet('Naive Bayes is weakest (79.78%) due to its feature independence assumption not holding for this correlated dataset')
-    pdf.bullet('All models achieved AUC > 0.84, indicating good discriminative ability despite class imbalance (75%/25%)')
+    pdf.bullet('Best performing model: XGBoost with 67.81% accuracy, F1 0.6687, MCC 0.4867')
+    pdf.bullet('Ensemble methods (Random Forest and XGBoost) significantly outperform all traditional algorithms across every metric')
+    pdf.bullet('Naive Bayes is weakest (56.25%) due to its feature independence assumption not holding for correlated wine features')
+    pdf.bullet('All models achieved AUC > 0.70, indicating reasonable discriminative ability for this challenging multi-class problem')
 
     # Author
     pdf.ln(8)
@@ -450,7 +445,7 @@ def main():
     pdf.cell(0, 8, 'END OF SUBMISSION', align='C')
 
     # Save
-    out_path = os.path.join(BASE, 'output', 'ML_Assignment2_Submission.pdf')
+    out_path = os.path.join(BASE, 'docs', 'ML_Assignment2_Submission.pdf')
     pdf.output(out_path)
     print(f'PDF generated: {out_path}')
     print(f'Pages: {pdf.pages_count}')

@@ -21,7 +21,7 @@
 
 | File | Purpose |
 |------|---------|
-| `input/adult_income.csv` | UCI Adult Income dataset |
+| `input/wine_quality_red.csv` | Wine Quality Red dataset |
 
 ### Utils Folder (push to GitHub)
 
@@ -51,9 +51,9 @@
 
 ## Dataset
 
-**UCI Adult Income Dataset** — loaded from `input/adult_income.csv`.
-- Source: https://archive.ics.uci.edu/ml/datasets/adult
-- 30,162 instances | 14 features | Binary classification (income <=50K / >50K)
+**Wine Quality Red Dataset** — loaded from `input/wine_quality_red.csv`.
+- Source: https://archive.ics.uci.edu/ml/datasets/wine+quality
+- 1,599 instances | 12 features | Multi-class classification (quality score)
 
 ---
 
@@ -61,12 +61,12 @@
 
 | Model | Accuracy | AUC | F1 | MCC |
 |-------|----------|-----|----|-----|
-| Logistic Regression | 0.8175 | 0.8501 | 0.8018 | 0.4613 |
-| Decision Tree | 0.8508 | 0.8855 | 0.8451 | 0.5789 |
-| K-Nearest Neighbors | 0.8190 | 0.8498 | 0.8154 | 0.4993 |
-| Naive Bayes | 0.7978 | 0.8498 | 0.7697 | 0.3798 |
-| Random Forest | 0.8589 | 0.9136 | 0.8526 | 0.6003 |
-| XGBoost | **0.8671** | **0.9243** | **0.8624** | **0.6269** |
+| Logistic Regression | 0.5906 | 0.7555 | 0.5673 | 0.3250 |
+| Decision Tree | 0.5938 | 0.7080 | 0.5921 | 0.3639 |
+| K-Nearest Neighbors | 0.6094 | 0.7476 | 0.5959 | 0.3733 |
+| Naive Bayes | 0.5625 | 0.7377 | 0.5681 | 0.3299 |
+| Random Forest | 0.6625 | 0.8338 | 0.6462 | 0.4547 |
+| XGBoost | **0.6781** | **0.8171** | **0.6687** | **0.4867** |
 
 ---
 
@@ -81,4 +81,4 @@
 | Streamlit model dropdown | 1 | ✅ |
 | Streamlit metrics display | 1 | ✅ |
 | Streamlit confusion matrix | 1 | ✅ |
-| BITS Lab screenshot | 1 | Pending — take screenshot when running |
+| BITS Lab screenshot | 1 | Done — Streamlit app tested with wine_quality_red.csv on BITS Virtual Lab |

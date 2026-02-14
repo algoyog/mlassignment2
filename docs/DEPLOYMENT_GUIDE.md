@@ -3,19 +3,17 @@
 
 ---
 
-## Phase 1: BITS Virtual Lab Execution
+## Phase 1: BITS Virtual Lab Testing
 
 - [ ] Log into BITS Virtual Lab
-- [ ] Upload `model/model_training.ipynb`
-- [ ] Open the notebook in Jupyter
-- [ ] Run all cells: **Kernel → Restart & Run All**
-  - Dataset loads from `input/adult_income.csv`
-  - All 6 models train sequentially
-  - Results table appears in Section 9 output
-- [ ] **Take a screenshot** showing:
-  - BITS Virtual Lab interface visible
-  - Results table with all 6 models and 6 metrics
-- [ ] Output files are saved to `output/` folder automatically
+- [ ] Open the deployed Streamlit app in the BITS Virtual Lab browser
+- [ ] Upload a test dataset (e.g., `wine_quality_red.csv`)
+- [ ] Select target column and train all 6 models
+- [ ] View the Model Comparison Table with all 6 metrics
+- [ ] **Take screenshots** showing:
+  - BITS Virtual Lab interface visible (argo-rdp.codeargo.net)
+  - Streamlit app with CSV upload, model training, and results table
+  - Model Comparison Table with all 6 models and 6 metrics
 
 ---
 
@@ -35,7 +33,7 @@
   README.md
   .gitignore
   model/model_training.ipynb
-  input/adult_income.csv
+  input/wine_quality_red.csv
   output/model_comparison_results.csv
   output/confusion_matrices.png
   output/metrics_comparison.png
@@ -93,7 +91,7 @@ Repo not found      → ensure repository is Public
   - Your name, student ID, email
   - GitHub repository URL
   - Streamlit app URL
-  - Insert BITS Lab screenshot in Section 3
+  - Insert BITS Lab screenshots in Section 3
   - Paste complete README.md content in Section 4
 - [ ] Verify no `[...]` placeholders remain
 - [ ] Export as PDF

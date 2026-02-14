@@ -2,7 +2,7 @@
 
 ## What You Have
 
-A complete, ready-to-run ML classification project using the **UCI Adult Income dataset** loaded from the local `input/adult_income.csv` file.
+A complete, ready-to-run ML classification project using the **Wine Quality Red dataset** loaded from the local `input/wine_quality_red.csv` file.
 
 ---
 
@@ -19,7 +19,7 @@ mlassignment2/
 │   └── model_training.ipynb      # Jupyter notebook (run this on BITS Lab)
 │
 ├── input/                        # Dataset files
-│   └── adult_income.csv          # UCI Adult Income dataset
+│   └── wine_quality_red.csv      # Wine Quality Red dataset
 │
 ├── output/                       # Generated after running notebook
 │   ├── model_comparison_results.csv
@@ -41,18 +41,19 @@ mlassignment2/
 
 ## Dataset
 
-**UCI Adult Income** — loaded from `input/adult_income.csv`.
-- 30,162 instances | 14 features | Binary classification
-- Target: `income` (<=50K or >50K)
+**Wine Quality Red** — loaded from `input/wine_quality_red.csv`.
+- 1,599 instances | 12 features | Multi-class classification
+- Target: `quality` (wine quality score)
 
 ---
 
 ## What You Need to Do
 
-### 1. Run on BITS Virtual Lab
-- Upload `model/model_training.ipynb`
-- Run all cells (Kernel → Restart & Run All)
-- **Take a screenshot** of the results table (Section 9 output)
+### 1. Test on BITS Virtual Lab
+- Open the deployed Streamlit app on the BITS Virtual Lab browser
+- Upload a test dataset (e.g., `input/wine_quality_red.csv`)
+- Train all 6 models and view the Model Comparison Table
+- **Take screenshots** showing the BITS Virtual Lab interface with the app running
 
 ### 2. Push to GitHub
 - Create a new **public** repository
