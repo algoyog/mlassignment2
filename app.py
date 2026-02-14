@@ -309,7 +309,7 @@ def main():
     st.markdown("---")
     st.markdown("""
     <div style='text-align: center; color: gray;'>
-        <p>Machine Learning Assignment 2 | M.Tech (AIML/DSE) | 2026</p>
+        <p>Machine Learning Assignment 2 | M.Tech (AIML) | 2026</p>
     </div>
     """, unsafe_allow_html=True)
 

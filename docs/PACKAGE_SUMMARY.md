@@ -16,7 +16,19 @@
 | File | Purpose |
 |------|---------|
 | `model/model_training.ipynb` | Jupyter notebook — run this on BITS Virtual Lab |
-| `model/model_training.py` | Python script version |
+
+### Input Folder (push to GitHub)
+
+| File | Purpose |
+|------|---------|
+| `input/adult_income.csv` | UCI Adult Income dataset |
+
+### Utils Folder (push to GitHub)
+
+| File | Purpose |
+|------|---------|
+| `utils/__init__.py` | Package init |
+| `utils/ml_utils.py` | Shared utilities (preprocessing, models, metrics, plots) |
 
 ### Output Folder (push to GitHub)
 
@@ -39,7 +51,7 @@
 
 ## Dataset
 
-**UCI Adult Income Dataset** — no download needed, loaded automatically from URL.
+**UCI Adult Income Dataset** — loaded from `input/adult_income.csv`.
 - Source: https://archive.ics.uci.edu/ml/datasets/adult
 - 30,162 instances | 14 features | Binary classification (income <=50K / >50K)
 
@@ -62,8 +74,7 @@
 
 | Component | Marks | Status |
 |-----------|-------|--------|
-| All 6 models implemented | 6 | ✅ |
-| All 6 metrics calculated | 1 | ✅ |
+| All 6 models implemented + all 6 metrics | 6 | ✅ |
 | Dataset description in README | 1 | ✅ |
 | Model observations in README | 3 | ✅ |
 | Streamlit CSV upload | 1 | ✅ |

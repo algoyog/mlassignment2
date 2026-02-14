@@ -9,9 +9,9 @@
 - [ ] Upload `model/model_training.ipynb`
 - [ ] Open the notebook in Jupyter
 - [ ] Run all cells: **Kernel → Restart & Run All**
-  - Dataset loads automatically from UCI URL (no CSV upload needed)
+  - Dataset loads from `input/adult_income.csv`
   - All 6 models train sequentially
-  - Results table appears in cell-17 output
+  - Results table appears in Section 9 output
 - [ ] **Take a screenshot** showing:
   - BITS Virtual Lab interface visible
   - Results table with all 6 models and 6 metrics
@@ -35,10 +35,12 @@
   README.md
   .gitignore
   model/model_training.ipynb
-  model/model_training.py
+  input/adult_income.csv
   output/model_comparison_results.csv
   output/confusion_matrices.png
   output/metrics_comparison.png
+  utils/__init__.py
+  utils/ml_utils.py
   docs/
   ```
 - [ ] Update `README.md`:
